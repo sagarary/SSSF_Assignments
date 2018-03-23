@@ -1,0 +1,87 @@
+html, body {
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	padding: 0px	
+}
+
+#list{
+ float: left;	
+ list-style-type: none;
+ overflow: hidden;
+}
+#list li {
+	float: left;
+	width: 25%;
+	margin: 10px;
+	padding: 10px;
+	border: 2px solid #335533;
+}
+#list li img{
+	margin: auto;
+	max-width: 100%;
+	max-height: 100%;	
+	overflow: hidden;
+}
+#modalBox{
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	background-color: rgba(0,0,0,0.6); 
+}
+#modal {
+display: flex;
+flex-direction: column;
+ opacity: 1;
+ background-color: #fefefe;
+ margin: 2% auto;
+ padding: 5px;
+ border: 1px solid #888;
+ width: 70%;
+ max-width: 80%;
+ max-height: 95%;
+ overflow: auto;
+}
+
+#modHead,#modMid,#modBot{
+	display:block;
+	margin-top: 5px;
+	width: 100%;
+	position: relative;
+}
+#modalImg{
+	opacity: 1;
+	margin: auto;
+	width: auto;
+	max-width: 50%;
+	height:auto;
+	margin-left: 1%;
+}
+#modal button{
+	display: block;
+	white-space: pre;
+	margin: auto; 
+	float: left;
+	margin:auto;
+}
+
+#mapDiv{
+	width: 49% !important;
+	float: left;	
+}
+#modal h3{
+	display: block;
+	white-space: pre;
+}
+
+#map{
+		width: 100% !important;
+		height: 100% !important  ;
+		margin:auto;
+		float: left;
+}
