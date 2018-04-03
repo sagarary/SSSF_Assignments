@@ -1,28 +1,25 @@
 
-let extData = [];
-fetch('cats.json')
-  .then((response) => response.text())
-  .then((data) => {
-   extData = JSON.parse(data);
-  })
-  .then(() => main());
-
-
+let cats= ['all'];
 /* Main Loop */
+
 const main = () => {
+  
 
-  let cats = new Array(); // Storing cats for filter, cat_all for all //
-cats.push('all');
-  for (const pic of extData.picArray) {
+  fetch('/all').then((res) => {
+    return res.json();
+  }). then((articles) => {
+    console.log(articles.entries());
+    document.querySelector('#list').innerHTML='';
+  for (const [index,article] of articles.entries()) {
     /* Appending to ul */
-
+      
     const li = document.createElement('li');
     const img = document.createElement('img');
-    img.src = pic.thumbnail;
+    img.src = article.thumbnail;
     const title = document.createElement('h3');
     const details = document.createElement('p');
-    const titleText = document.createTextNode(pic.title);
-    const detailsText = document.createTextNode(pic.details);
+    const titleText = document.createTextNode(article.title);
+    const detailsText = document.createTextNode(article.details);
     const btn = document.createElement('button');
     const btnText = document.createTextNode('View');
     title.appendChild(titleText);
@@ -32,8 +29,8 @@ cats.push('all');
     li.appendChild(title);
     li.appendChild(details);
     li.appendChild(btn);
-    li.setAttribute('category', pic.category);
-    li.setAttribute('id', pic.id);
+    li.setAttribute('category', article.category);
+    li.setAttribute('id', article.id);
     li.className = 'cats';
 
 
@@ -45,7 +42,7 @@ cats.push('all');
 
     const head = document.createElement('div');
     const modalTitle = document.createElement('h3');
-    const modalTitleText = document.createTextNode(pic.title);
+    const modalTitleText = document.createTextNode(article.title);
     modalTitle.appendChild(modalTitleText);
     head.appendChild(modalTitle);
     head.setAttribute('id', 'modHead');
@@ -53,7 +50,7 @@ cats.push('all');
     const mid = document.createElement('div');
     const modalImg = document.createElement('img');
     modalImg.setAttribute('id', 'modalImg');
-    modalImg.src = pic.image;
+    modalImg.src = article.image;
     const map = document.createElement('div');
     map.setAttribute('id', 'map');
     const mapDiv = document.createElement('div');
@@ -68,7 +65,7 @@ cats.push('all');
     const modalCloseText = document.createTextNode('Close');
     modalClose.appendChild(modalCloseText);
     const date = document.createElement('h3');
-    const dateVal = new Date(pic.time);
+    const dateVal = new Date(article.time);
     const dVal = document.createTextNode(dateVal.toDateString());
     date.appendChild(dVal);
     bot.appendChild(date);
@@ -95,7 +92,8 @@ cats.push('all');
 
       /* Map Stuff */
 
-      const coords = pic.coordinates;
+      const coords = article.coordinates;
+      console.log(coords);
       const gmap = new google.maps.Map(map, {
         zoom: 12,
         center: coords,
@@ -104,7 +102,7 @@ cats.push('all');
       new google.maps.Marker({
         position: coords,
         map: gmap,
-        title: pic.title,
+        title: article.title,
       });
     });
 
@@ -120,10 +118,14 @@ cats.push('all');
 
 
     /* Categories*/
-    if (!cats.includes(pic.category)) {
-      cats.push(pic.category);
+    if (!cats.includes(article.category)) {
+      cats.push(article.category);
     }
   } // End of loop
+  })
+}
+
+  
 
 
 
@@ -182,27 +184,29 @@ sortBtn.addEventListener('click', (evt) => {
     });
 console.log(all);
   });
-};
 
-// For Exif Data 
+// For Location Data 
 
 navigator.geolocation.getCurrentPosition((position) => {
+ let coords = {};
+  const latlngData = document.createElement('input');
+            latlngData.setAttribute('type', 'hidden');
+      latlngData.setAttribute('name', 'coordinates');
+
+      
 
   // Get the coordinates of the current position.
-  const lat = position.coords.latitude;
-  const lng = position.coords.longitude;
+  let lat = position.coords.latitude;
+  let lng = position.coords.longitude;
 
   // Create a new map and place a marker at the device location.
-  console.log(lat);
-  console.log(lng);
-
-  const gmap = new google.maps.Map(document.getElementById('mapExif'), {
+ 
+  const gmap = new google.maps.Map(document.querySelector('#mapdata'), {
     zoom: 14,
-    center: {lat: lat, lng: lng}
+      center: {lat: lat, lng: lng}
   });
   let marker=0;
   gmap.addListener('click', e=>{
-    console.log('event called');
     placeMarker(e.latLng, gmap)
   });
   const placeMarker = (latLng, map) => {
@@ -211,8 +215,46 @@ navigator.geolocation.getCurrentPosition((position) => {
       position: latLng,
       map: map
     });
+    coords = JSON.stringify({
+      'lat' : marker.getPosition().lat(),
+      'lng' : marker.getPosition().lng()
+    });
     gmap.panTo(latLng);
+    
+    latlngData.setAttribute('value', coords);
+        document.querySelector('#inputForm').appendChild(latlngData);
   }
+  const inputForm = document.querySelector('#inputForm');
+  console.log(inputForm);
+  
+  document.querySelector('#inputForm').addEventListener('submit', (evt) => {
+  evt.preventDefault();
+ 
+  const data = new FormData(evt.target);
+  const fileElement = evt.target.querySelector('input[type=file]');
+  const file = fileElement.files[0];
+  data.append('file', file);
+  console.log(data);
+   console.log('append event called');
+
+  const url = '/post';
+
+  fetch(url, {
+    method: 'post',
+    body: data,
+  }).then((resp) => {
+    return resp.json();
+  }).then((json) => {
+    console.log(json);
+    main();
+  });
+
+
  
 });
+
+});
+main;
+
+ 
 
