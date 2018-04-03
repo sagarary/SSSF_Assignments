@@ -17,31 +17,32 @@
 	<ul id="list">
 	</ul>
 	<script type="text/javascript" src="dSort.js"></script>
-	<form class="ui large form segment">
-		<h3 class="ui header">Add a cat</h3>
-		<div class="field">
-			<label for="title">Title:</label>
-			<input name="title">
-		</div>
-		<div class="field">
-			<label for="category">Category:</label>
-			<input name="link">
-		</div>
-		<div class="field">
-			<label for="details">Details:</label>
-			<input name="details">
-		</div>
-		<div class="field">
-			<label for="image">Image:</label>
-			<input name="image" type="file">
-		</div>
-		<div class="field">
-			<label for="pos">Select Position:</label>
-			<div id="mapExif" style="width: 300px;height: 300px;"></div>
-			
-		</div>
-
-		
+	<form id="inputForm">
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <input type="text" class="form-control" id="category" name="category"
+                                   placeholder="Enter category">
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" id="title" name="title"
+                                   placeholder="Enter title">
+                        </div>
+                        <div class="form-group">
+                            <label for="details">Description</label>
+                            <textarea class="form-control" id="details" name="details" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                        	<label for="coords"> Select Position:</label>
+                            <div id="mapdata" style="height: 300px; width: 300px;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image</label>
+                            <input type="file" class="form-control-file" id="image" aria-describedby="imageHelp">
+                            <small id="imageHelp" class="form-text text-muted">Add Image</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
 
 
 </body>
