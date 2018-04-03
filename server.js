@@ -4,7 +4,6 @@
 const express = require('express');
 const multer = require('multer');
 const imageresize = require('./modules/imageresize');
-const coordinates = require('./modules/coordinates');
 const jsonfile = require('jsonfile');
 const mongoose = require('mongoose');
 const upload = multer({dest: 'public/uploads/'});
