@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title From Pug
+    link(rel='stylesheet', href='w1.css')
+    script(language='javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBI_1lRuq38QPdQU8wMjcK2sVa4MM3cpHQ&v=3')
+  body
+    #selectBox
+    ul#list
+    script(type='text/javascript', src='dSort.js')
+    form#inputForm
+      .form-group
+        label(for='category') Category
+        input#category.form-control(type='text', name='category', placeholder='Enter category')
+      .form-group
+        label(for='title') Title
+        input#title.form-control(type='text', name='title', placeholder='Enter title')
+      .form-group
+        label(for='details') Description
+        textarea#details.form-control(name='details', rows='3')
+      .form-group
+        label(for='coords')  Select Position:
+        #mapdata(style='height: 300px; width: 300px;')
+      .form-group
+        label(for='image') Image
+        input#image.form-control-file(type='file', aria-describedby='imageHelp')
+        small#imageHelp.form-text.text-muted Add Image
+      button.btn.btn-primary(type='submit') Submit

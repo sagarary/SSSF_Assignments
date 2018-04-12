@@ -20,18 +20,31 @@ const main = () => {
     const details = document.createElement('p');
     const titleText = document.createTextNode(article.title);
     const detailsText = document.createTextNode(article.details);
-    const btn = document.createElement('button');
-    const btnText = document.createTextNode('View');
+    const viewBtn = document.createElement('button');
+    const viewBtnText = document.createTextNode('View');
+    const editBtn = document.createElement('button');
+    const editBtnText = document.createTextNode('Edit');
+    const deleteBtn = document.createElement('button');
+    const deleteBtnText = document.createTextNode('Delete');
+
     title.appendChild(titleText);
     details.appendChild(detailsText);
-    btn.appendChild(btnText);
+    viewBtn.appendChild(viewBtnText);
+    editBtn.appendChild(editBtnText);
+    deleteBtn.appendChild(deleteBtnText);
     li.appendChild(img);
     li.appendChild(title);
     li.appendChild(details);
-    li.appendChild(btn);
+    li.appendChild(viewBtn);
+    li.appendChild(editBtn);
+    li.appendChild(deleteBtn);
     li.setAttribute('category', article.category);
-    li.setAttribute('id', article.id);
+    li.setAttribute('id', article._id);
     li.className = 'cats';
+    editBtn.setAttribute('class', 'edit');
+    deleteBtn.setAttribute('class', 'delete')
+
+
 
 
     /* For Modal*/
@@ -87,7 +100,7 @@ const main = () => {
 
     /* Events*/
     // Open  Modal
-    btn.addEventListener('click', (evt) => {
+    viewBtn.addEventListener('click', (evt) => {
       modalContainer.style.display = 'block'; // Modal Display
 
       /* Map Stuff */
@@ -116,6 +129,14 @@ const main = () => {
       }
     });
 
+    deleteBtn.addEventListener('click', (e) => {
+    const delID = deleteBtn.parentElement.id;
+    del(delID);
+    })
+
+
+
+
 
     /* Categories*/
     if (!cats.includes(article.category)) {
@@ -124,11 +145,6 @@ const main = () => {
   } // End of loop
   })
 }
-
-  
-
-
-
 
 /* Select Menu*/
 
@@ -225,8 +241,10 @@ navigator.geolocation.getCurrentPosition((position) => {
         document.querySelector('#inputForm').appendChild(latlngData);
   }
   const inputForm = document.querySelector('#inputForm');
-  console.log(inputForm);
   
+
+  //posting form -> create new cat
+
   document.querySelector('#inputForm').addEventListener('submit', (evt) => {
   evt.preventDefault();
  
@@ -249,12 +267,21 @@ navigator.geolocation.getCurrentPosition((position) => {
     main();
   });
 
-
  
 });
 
 });
-main;
+const del = (id) => {
+     fetch(`/delete/${id}`, {
+      method: 'delete'
+    }).then((resp) => {
+      return resp.json();
+    }).then((json) => {
+      console.log(json);
+      main();
+    });
+}
+main();
 
  
 
