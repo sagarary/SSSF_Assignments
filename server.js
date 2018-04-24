@@ -6,6 +6,7 @@ const multer = require('multer');
 const imageresize = require('./modules/imageresize');
 const jsonfile = require('jsonfile');
 const mongoose = require('mongoose');
+const moment = require('moment');
 const upload = multer({ dest: 'public/uploads/' });
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -20,6 +21,7 @@ const app = express();
 app.set('view engine', 'pug');
 
 app.use(express.static('public'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet({
@@ -39,7 +41,7 @@ const options = {
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`)
   .then(() => {
     console.log('Connected successfully.');
-    https.createServer(options, app).listen(3000);
+    https.createServer(options, app).listen(3300);
   }, err => {
     console.log('Connection to db failed: ' + err);
   });
@@ -56,6 +58,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // serve node_modules
 app.use('/modules', express.static('node_modules'));
+
+
 
 
 const CatSchema = new mongoose.Schema({
